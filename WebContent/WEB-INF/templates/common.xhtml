@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="es" 
+	xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    
+	<h:head>
+		<h:outputStylesheet name="css/primeflex.min.css"/>
+		<h:outputStylesheet name="css/bootstrap/bootstrap.min.css"/>
+		<h:outputStylesheet name="css/default.css"/>
+		<ui:insert name="setCss"></ui:insert>
+        <ui:insert name="setJs"></ui:insert> 
+        <title><ui:insert name="title">Inicio</ui:insert></title>      
+   	</h:head>
+   	<h:body style="background-color: #FCFCFC">
+   		
+    	<h:panelGroup layout="block">
+        	<ui:insert name = "header" >
+            	<ui:include src = "/WEB-INF/templates/header.xhtml"/>
+         	</ui:insert> 
+      	</h:panelGroup>
+      	<h:panelGroup layout="block" styleClass="container-fluid col-lg-11 col-md-12 col-12 mt-5">
+	      	<h:panelGroup layout="block" styleClass="row">
+		     	<h:panelGroup layout="block" styleClass="col-3">
+		         	<ui:insert name = "left" >
+		            	<ui:include src = "/WEB-INF/templates/left.xhtml"/>
+		         	</ui:insert>    
+		      	</h:panelGroup>
+		      	<h:panelGroup layout="block" styleClass="col-8">
+		         	<ui:insert name="body-content"></ui:insert>    
+		      	</h:panelGroup>
+	      	</h:panelGroup>
+      	</h:panelGroup>
+      	<h:panelGroup layout="block">
+        	<ui:insert name = "footer" >
+            	<ui:include src = "/WEB-INF/templates/footer.xhtml"/>
+         	</ui:insert>
+      	</h:panelGroup>
+   
+   </h:body>
+</html>

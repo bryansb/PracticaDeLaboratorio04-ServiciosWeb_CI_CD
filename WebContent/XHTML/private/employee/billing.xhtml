@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<ui:composition template="/WEB-INF/templates/common.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    
+    <ui:define name="title">Facturación</ui:define>
+    
+    <ui:define name="body-content">
+		<h:panelGroup id="main-content">
+			<h:panelGroup id="user-select">
+				<p:panelGrid columns="1" layout="flex" styleClass="showcase-text-align-center"
+				rendered="#{not billHeadBean.userSelected}">
+					<h:form>
+						<h3>Seleccione un Cliente</h3>
+			    		<div class="p-col-11 p-justify-center" style="text-align:center;">
+			    			<p:outputLabel for="user-dni" style="display:none" value="Cédula:" />
+			            	<p:inputText id="user-dni" value="#{billHeadBean.dniUserSearch}" placeholder="Cédula" styleClass="p-col-5"/>
+				            <p:commandButton value="Buscar" styleClass="p-col-2" update="users"/>
+			    		</div>
+					</h:form>
+					<h:form id="users">
+						<p:dataTable value="#{billHeadBean.userList}" var="u" style="text-align: center;"
+						rows="5" paginator="true" rowsPerPageTemplate="5, 10, 15">
+							<p:column>
+								<f:facet name="header">Cédula</f:facet>
+								#{u.dni}
+							</p:column>
+							<p:column>
+								<f:facet name="header">Nombre</f:facet>
+								#{u.name}
+							</p:column>
+							<p:column>
+								<f:facet name="header">Apellido</f:facet>
+								#{u.lastname}
+							</p:column>
+							<p:column>
+								<f:facet name="header">Correo</f:facet>
+								#{u.email}
+							</p:column>
+							<p:column>
+								<f:facet name="header">Acción</f:facet>
+								<p:commandButton value="Seleccionar" action="#{billHeadBean.setUser(u)}"
+								update="main-content"/>
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</p:panelGrid>
+			</h:panelGroup>
+			<h:panelGroup id="user-selected">
+				<h:panelGroup rendered="#{billHeadBean.userSelected}">
+					<p:row>
+						<form>
+							<h2><h:outputText value="Facturación"/></h2>
+							<h:panelGroup style="text-align:center;" styleClass="col-11">
+								<p:panel header="Usuario Seleccionado" style="text-align:center; margin: 0 auto;">
+									<p:panelGrid style="width:100%">
+							       		<p:row>
+							       			<p:column styleClass="my-f-w">Cédula:</p:column>
+							        		<p:column colspan="3">
+							        			<h:outputText value="#{billHeadBean.user.dni}"/>
+							        		</p:column>
+										</p:row>
+										<p:row>
+											<p:column styleClass="my-f-w">Nombre:</p:column>					       			
+							        		<p:column><h:outputText value="#{billHeadBean.user.name}"/></p:column>
+											<p:column styleClass="my-f-w">Apellido:</p:column>
+							        		<p:column><h:outputText value="#{billHeadBean.user.lastname}"/></p:column>
+										</p:row>
+										<p:row>
+											<p:column styleClass="my-f-w">Correo:</p:column>
+											<p:column colspan="3">
+												<h:outputText value="#{billHeadBean.user.email}"/>
+											</p:column>
+										</p:row>
+									</p:panelGrid>
+								</p:panel>
+							</h:panelGroup>
+						</form>
+					</p:row>
+					<p:row>
+						<h:form id="billHead">
+							<h3>Detalle</h3>
+							<p:dataTable value="#{billHeadBean.billHead.billDetails}" var="bd" style="text-align: center;">
+								<p:column>
+									<f:facet name="header">Nombre</f:facet>
+									#{bd.productWarehouse.product.name}
+								</p:column>
+								<p:column>
+									<f:facet name="header">Precio</f:facet>
+									#{bd.unitPrice}
+								</p:column>
+								<p:column>
+									<f:facet name="header">Cantidad</f:facet>
+									#{bd.amount}
+								</p:column>
+								<p:column>
+									<f:facet name="header">Total</f:facet>
+									#{bd.total}
+								</p:column>
+								<p:column>
+									<f:facet name="header">Eliminar</f:facet>
+									<p:commandButton value="Eliminar" action="#{billHeadBean.removeBillDetail(bd)}" update="billHead products-select"/> 
+								</p:column>
+							</p:dataTable>
+							<div style="width:100%; clear: both;">
+								<p:panelGrid cellpadding="5" style="text-align: right; float: right">
+									<p:row>
+										<p:column style="text-align: right" styleClass="my-f-w"><h:outputText value="Subtotal:"/> </p:column>
+										<p:column><p:outputLabel value="#{billHeadBean.billHead.subtotal}"/> </p:column>
+									</p:row>
+									<p:row>
+										<p:column style="text-align: right" styleClass="my-f-w"><h:outputText value="IVA:"/> </p:column>
+										<p:column><p:outputLabel value="#{billHeadBean.billHead.vat}"/></p:column>
+									</p:row>
+									<p:row>
+										<p:column style="text-align: right" styleClass="my-f-w"><h:outputText value="Total:"/> </p:column>
+										<p:column><p:outputLabel value="#{billHeadBean.billHead.total}"/></p:column>
+									</p:row>
+									<p:row>
+										<p:column><p:commandButton value="Cancelar" action="#{billHeadBean.resetBilling()}" update="main-content" 
+										styleClass="">
+											<f:actionListener binding="#{billDetailBean.cancelBilling()}"/>
+										</p:commandButton></p:column>
+										<p:column><p:commandButton value="Confirmar Compra" action="#{billHeadBean.confirm()}" update="main-content" 
+										styleClass="ui-priority-primary">
+										</p:commandButton></p:column>
+									</p:row>
+								</p:panelGrid>
+							</div>
+							<div style="width:100%; clear: both;"></div>
+						</h:form>
+					</p:row>
+				</h:panelGroup>
+				<div class="mt-4"></div>
+				<h:panelGroup id="products-select">
+					<p:row>
+						<h:form rendered="#{billDetailBean.inputAmount}" id="input-amount">
+							<p:messages for="input-amount">
+				    			<p:autoUpdate/>
+				    		</p:messages>
+							<p:panel header="Agregar Cantidad" style="text-align:center; margin: 0 auto;" class="col-10">
+								<p:messages id="msgs"/>
+								<p:panelGrid cellpadding="5" style="width:100%;">
+									<p:row>
+										<p:column styleClass="my-f-w"><p:outputLabel value="Nombre:"/></p:column>
+										<p:column><p:outputLabel value="#{billDetailBean.productWarehouse.product.name}"/></p:column>
+										<p:column styleClass="my-f-w"><p:outputLabel value="Precio:"/></p:column>
+										<p:column><p:outputLabel value="#{billDetailBean.productWarehouse.price}"/></p:column>
+										<p:column styleClass="my-f-w"><p:outputLabel value="Stock:"/></p:column>
+										<p:column><p:outputLabel value="#{billDetailBean.productWarehouse.stock}"/></p:column>
+									</p:row>
+								</p:panelGrid>
+								<div style="width:100%;">
+									<h:panelGrid columns="4" cellpadding="5" style="text-align:center; margin: 0 auto;">
+										<p:outputLabel for="product-amount" value="Cantidad:" styleClass="my-f-w"/>
+										<p:inputText value="#{billDetailBean.amount}" id="product-amount" required="true"
+											converterMessage="Ingrese solo números"
+											validator="#{billDetailBean.validateAmount}"
+											requiredMessage="Ingrese un valor"/>
+										<p:commandButton value="Cancelar" action="#{billDetailBean.cancelProduct()}" update="products-select"/>
+										<p:commandButton value="Confimar" action="#{billDetailBean.create(billHeadBean.billHead)}"
+										update="billHead products-select"/>
+									</h:panelGrid>
+								</div>
+							</p:panel>
+						</h:form>
+					</p:row>
+					<p:row>
+						<h:form id="products-list" rendered="#{not billDetailBean.inputAmount and billHeadBean.userSelected}">
+							<h3>Seleccionar Producto:</h3>
+							<div class="p-col-11 p-justify-center" style="text-align:center;">
+					    			<p:outputLabel for="product-name" style="display:none" value="Nombre del producto"/>
+					            	<p:inputText id="product-name" value="#{billDetailBean.productName}" placeholder="Buscar producto" styleClass="p-col-4"/>
+						            <p:commandButton value="Buscar" styleClass="p-col-2" update="product-list-choose"/>
+				    		</div>
+				    		
+				    		<!-- FILTROS -->
+				    		<div class="p-col-11 p-justify-center" style="text-align:center;">
+				    			<div class="row">
+					    			<div class="col-6">
+					    				<p:outputLabel for="warehouse" value="Bodegas:" styleClass="my-f-w"/><br/>
+						    			<p:selectOneMenu id="warehouse" value="#{billDetailBean.warehouseId}" panelStyle="width:180px"
+					                         effect="fade" var="w" style="width:90%" filter="true" filterMatchMode="startsWith">
+					                        <f:selectItem itemLabel="Todos" itemValue="0" />	
+								            <c:forEach items="#{billDetailBean.warehouseList}" var="wl" varStatus="loop">
+								            	<f:selectItem itemLabel="#{wl.address}" itemValue="#{wl.id}" />		            
+								            </c:forEach>
+											
+								            <p:column>
+								               <f:facet name="header">
+								                   <h:outputText value="Dirección"/>
+								                </f:facet>
+								                <h:outputText value="#{w}" />
+								            </p:column>
+								            <f:ajax render="product-list-choose"/>
+								        </p:selectOneMenu>
+						            </div>
+						            <div class="col-6">
+						            	<p:outputLabel for="category" value="Categorías:" styleClass="my-f-w"/><br/>
+						            	<p:selectOneMenu id="category" value="#{billDetailBean.categoryId}" panelStyle="width:180px"
+					                         effect="fade" var="c" style="width:90%" filter="true" filterMatchMode="startsWith">
+					                        <f:selectItem itemLabel="Todos" itemValue="0" />
+								            <c:forEach items="#{billDetailBean.categoryList}" var="cl" varStatus="loop">
+								            	<f:selectItem itemLabel="#{cl.name}" itemValue="#{cl.id}" />		            
+								            </c:forEach>
+								            <p:column>
+								               <f:facet name="header">
+								                   <h:outputText value="Categoría"/>
+								                </f:facet>
+								                <h:outputText value="#{c}" />
+								            </p:column>
+								            <f:ajax render="product-list-choose"/>
+								        </p:selectOneMenu>
+						            </div>
+						            <br/>
+					    		</div>
+					    	</div>
+				    		<!-- /FILTROS -->
+				    		
+							<p:dataGrid id="product-list-choose" var="pw" value="#{billDetailBean.productWarehouseList}" columns="3" layout="grid"
+				                    rows="12" paginator="true" style="margin-top:20px">
+								<f:facet name="header">
+				                	Productos Disponibles
+				            	</f:facet>
+								<p:panel header="#{pw.product.name}" style="text-align:center">
+				                	<p:panelGrid style="width:100%">
+				                		<p:row>
+					                		<p:column>
+						                    	<h:outputText value="Precio:" styleClass="my-f-w"/>
+						                    </p:column>
+						                    <p:column>
+							                    <h:outputText value="#{pw.price}" />
+						                    </p:column>
+					                    </p:row>
+					                    <p:row>
+						                    <p:column>
+							                    <h:outputText value="Stock:" styleClass="my-f-w"/>
+						                   	</p:column>
+						                   	<p:column>
+							                    <h:outputText value="#{pw.stock}" />
+						                    </p:column>
+					                	</p:row>
+					                	<p:row>
+						                    <p:column>
+							                    <h:outputText value="Categoría:" styleClass="my-f-w"/>
+						                   	</p:column>
+						                   	<p:column>
+							                    <h:outputText value="#{pw.product.category.name}" />
+						                    </p:column>
+					                	</p:row>
+					                	<p:row>
+						                    <p:column>
+							                    <h:outputText value="Bodega:" styleClass="my-f-w"/>
+						                   	</p:column>
+						                   	<p:column>
+							                    <h:outputText value="#{pw.warehouse.address}" />
+						                    </p:column>
+					                	</p:row>
+					                	<p:row>
+						                   	<p:column colspan="2">
+							                    <p:commandButton value="Seleccionar" action="#{billDetailBean.loadProduct(pw)}" 
+							                    update="products-select" icon="fa fa-plus"/>
+						                    </p:column>
+					                 	</p:row>
+					                </p:panelGrid>
+					            </p:panel>
+							</p:dataGrid>
+						</h:form>
+					</p:row>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:panelGroup>
+	</ui:define>
+</ui:composition>

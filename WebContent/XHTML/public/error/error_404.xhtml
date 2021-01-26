@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<h:outputStylesheet name="css/primeflex.min.css"/>
+	<h:outputStylesheet name="css/bootstrap/bootstrap.min.css"/>
+	<h:outputStylesheet name="css/default.css"/>
+    <title>Error 404</title>
+</h:head>
+<h:body style="background-color: #cdc9c3">
+	<h:panelGroup id="main-content" layout="block" styleClass="container text-center">
+	    <h:panelGroup layout="block" styleClass="row justify-content-center m-5">
+	        <h:panelGroup layout="block" styleClass="col-md-12">
+            	<div class="row justify-content-center">
+            		<div class="col-12 text-center">
+		                <h1>¡UPS!</h1>
+		                <br/>
+		                <h2>404 - Página no encontrada</h2>
+		             </div>
+                </div>
+                <div class="row">
+	                <h:panelGroup styleClass="col-12 text-center" layout="block">
+	                    Lo sentimos, un error ha ocurrido. La página solicitada no se encuentra disponible.
+	                </h:panelGroup>
+	            </div>
+	            <div class="row">
+	                <h:panelGroup styleClass="text-center col-12" layout="block">
+	                	<h:graphicImage library="images" name="giphy.gif" style="width:250px"/><br/>
+                    	<a href="/Practica03/index.jsf" class="btn btn-dark"><i class="fa fa-home"></i> Inicio</a>
+                	</h:panelGroup>
+                </div>
+            </h:panelGroup>
+        </h:panelGroup>
+	</h:panelGroup>
+</h:body>
+</html>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<ui:composition template="/WEB-INF/templates/common.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    
+    <ui:define name="title">Gestión de Productos</ui:define>
+    
+    <ui:define name="body-content">
+    	<h:panelGroup id="main-content">
+    	<h2>Gestión de Productos</h2>
+    	
+    		<!-- // CREAR  -->
+    		<h:form id="product-create">
+    		<p:messages>
+    			<p:autoUpdate/>
+    		</p:messages>
+				<div class="col-12 text-center" >
+					<h3>Crear Productos</h3>
+					<div class="row m-4">
+						<div class="col-lg-4 col-md-12">
+			    			<p:outputLabel for="product-category" value="Categoría:" /><br/>
+			            	<p:selectOneMenu id="product-category" value="#{productBean.index}" panelStyle="width:180px"
+		                         effect="fade" var="p" style="width:160px" filter="true" filterMatchMode="startsWith">
+		                         
+					            <c:forEach items="#{productBean.categoryList}" var="cl" varStatus="loop">
+					            	<f:selectItem itemLabel="#{cl.name}" itemValue="#{cl.id}" />		            
+					            </c:forEach>
+								
+					            <p:column>
+					               <f:facet name="header">
+					                   <h:outputText value="Categoría"/>
+					                </f:facet>
+					                <h:outputText value="#{p}" />
+					            </p:column>
+					        </p:selectOneMenu>
+				        </div>
+				        <div class="col-lg-4 col-md-12">
+							<p:outputLabel for="product-name" value="Nombre:" /><br/>
+							<p:inputText id="product-name" value="#{productBean.name}" />
+						</div>
+						<div class="col-lg-4 col-md-12">
+							<p:commandButton value="Crear Nuevo Producto" action="#{productBean.create()}"
+								update="main-content"/>
+						</div>
+					</div>
+	    		</div>    			
+    		</h:form>
+    		
+    		<!-- // LISTAR -->
+    		<h:form>
+    			<p:dataTable id="products" value="#{productBean.productList}" var="p" rows="5" paginator="true" 
+    			rowsPerPageTemplate="5, 10, 15" styleClass="text-center">
+					<p:column>
+						<f:facet name="header">Categoría</f:facet>
+						#{p.category.name}
+					</p:column>
+					<p:column>
+						<f:facet name="header">Nombre</f:facet>
+						<p:inputText value="#{p.name}" rendered="#{p.editable}" />
+						<p:outputLabel value="#{p.name}" rendered="#{not p.editable}" />
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">Stock General</f:facet>
+						<p:outputLabel value="#{productWarehouseBean.getStock(p.id)}" />
+					</p:column>
+					
+					<p:column>
+						<f:facet name="header">Acciones</f:facet>
+						<p:commandButton value="Editar" action="#{productBean.edit(p)}"
+							rendered="#{not p.editable and not p.deleted}" update="products"/>
+						
+						<p:commandButton value="Guardar" action="#{productBean.save(p)}"
+							rendered="#{p.editable and not p.deleted}" update="products"/>
+							
+						<p:commandButton value="Eliminar" action="#{productBean.delete(p)}"
+							rendered="#{p.editable and not p.deleted}" update="products"/>
+						<p:commandButton value="Restaurar" action="#{productBean.restore(p)}"
+							rendered="#{not p.editable and p.deleted}" update="products"/>
+					</p:column>
+				</p:dataTable>
+    		</h:form>
+    		
+    	</h:panelGroup>
+	</ui:define>
+</ui:composition>

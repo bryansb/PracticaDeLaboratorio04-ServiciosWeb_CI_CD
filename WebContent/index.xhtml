@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<ui:composition template="/WEB-INF/templates/common.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    
+    <ui:define name="title">Inicio</ui:define>
+    
+    <ui:define name="body-content">
+    	<h:form id="products-list">
+			<h3>Catálogo de productos:</h3>
+			<div class="p-col-11 p-justify-center" style="text-align:center;">
+    			<p:outputLabel for="product-name" style="display:none" value="Nombre del producto"/>
+            	<p:inputText id="product-name" value="#{indexBean.productName}" placeholder="Buscar producto" styleClass="p-col-4"/>
+	            <p:commandButton value="Buscar" styleClass="p-col-2" update="product-list-choose"/>
+	   		</div>
+	   		
+	   		<!-- FILTROS -->
+	   		<div class="p-col-11 p-justify-center" style="text-align:center;">
+	   			<div class="row">
+	    			<div class="col-6">
+	    				<p:outputLabel for="warehouse" value="Bodegas:" styleClass="my-f-w"/><br/>
+		    			<p:selectOneMenu id="warehouse" value="#{indexBean.warehouseId}" panelStyle="width:180px"
+	                         effect="fade" var="w" style="width:90%" filter="true" filterMatchMode="startsWith">
+	                        <f:selectItem itemLabel="Todos" itemValue="0" />	
+				            <c:forEach items="#{indexBean.warehouseList}" var="wl" varStatus="loop">
+				            	<f:selectItem itemLabel="#{wl.address}" itemValue="#{wl.id}" />		            
+				            </c:forEach>
+				            <p:column>
+				               <f:facet name="header">
+				                   <h:outputText value="Dirección"/>
+				                </f:facet>
+				                <h:outputText value="#{w}" />
+				            </p:column>
+				            <f:ajax render="product-list-choose"/>
+				        </p:selectOneMenu>
+		            </div>
+		            <div class="col-6">
+		            	<p:outputLabel for="category" value="Categorías:" styleClass="my-f-w"/><br/>
+		            	<p:selectOneMenu id="category" value="#{indexBean.categoryId}" panelStyle="width:180px"
+	                         effect="fade" var="c" style="width:90%" filter="true" filterMatchMode="startsWith">
+	                        <f:selectItem itemLabel="Todos" itemValue="0" />
+				            <c:forEach items="#{indexBean.categoryList}" var="cl" varStatus="loop">
+				            	<f:selectItem itemLabel="#{cl.name}" itemValue="#{cl.id}" />		            
+				            </c:forEach>
+				            <p:column>
+				               <f:facet name="header">
+				                   <h:outputText value="Categoría"/>
+				                </f:facet>
+				                <h:outputText value="#{c}" />
+				            </p:column>
+				            <f:ajax render="product-list-choose"/>
+				        </p:selectOneMenu>
+		            </div>
+		            <br/>
+	    		</div>
+	    	</div>
+	   		<!-- /FILTROS -->
+	   		
+			<p:dataGrid id="product-list-choose" var="pw" value="#{indexBean.productWarehouseList}" columns="3" layout="grid"
+	                   rows="12" paginator="true" style="margin-top:20px">
+				<f:facet name="header">
+	               	Productos Disponibles
+	           	</f:facet>
+				<p:panel header="#{pw.product.name}" style="text-align:center">
+	               	<p:panelGrid style="width:100%">
+	               		<p:row>
+	                		<p:column>
+		                    	<h:outputText value="Precio:" styleClass="my-f-w"/>
+		                    </p:column>
+		                    <p:column>
+			                    <h:outputText value="#{pw.price}" />
+		                    </p:column>
+	                    </p:row>
+	                    <p:row>
+		                    <p:column>
+			                    <h:outputText value="Stock:" styleClass="my-f-w"/>
+		                   	</p:column>
+		                   	<p:column>
+			                    <h:outputText value="#{pw.stock}" />
+		                    </p:column>
+	                	</p:row>
+	                	<p:row>
+		                    <p:column>
+			                    <h:outputText value="Categoría:" styleClass="my-f-w"/>
+		                   	</p:column>
+		                   	<p:column>
+			                    <h:outputText value="#{pw.product.category.name}" />
+		                    </p:column>
+	                	</p:row>
+	                	<p:row>
+		                    <p:column>
+			                    <h:outputText value="Bodega:" styleClass="my-f-w"/>
+		                   	</p:column>
+		                   	<p:column>
+			                    <h:outputText value="#{pw.warehouse.address}" />
+		                    </p:column>
+	                	</p:row>
+	                </p:panelGrid>
+	            </p:panel>
+			</p:dataGrid>
+		</h:form>
+    </ui:define>
+    
+</ui:composition>
