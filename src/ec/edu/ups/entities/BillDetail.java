@@ -17,7 +17,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="BILL_DETAILS")
-
 public class BillDetail implements Serializable {
 
 	
