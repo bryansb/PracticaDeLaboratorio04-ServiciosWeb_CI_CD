@@ -29,6 +29,20 @@
     <url-pattern>*.xhtml</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+  	<servlet-name>Practica03</servlet-name>
+  	<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
+  	<init-param>
+  		<param-name>jersey.config.server.provider.packages</param-name>
+  		<param-value>ec.edu.ups.rest</param-value>
+  	</init-param>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>Practica03</servlet-name>
+  	<url-pattern>/rest/*</url-pattern>
+  </servlet-mapping>
+  
   <!-- ERROR PAGES -->
   <error-page>
    	<error-code>404</error-code>
