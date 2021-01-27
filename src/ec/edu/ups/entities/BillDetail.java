@@ -2,6 +2,8 @@ package ec.edu.ups.entities;
 
 import java.io.Serializable;
 
+import javax.json.bind.annotation.JsonbNumberFormat;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -34,6 +36,7 @@ public class BillDetail implements Serializable {
 	private double unitPrice;
 	
 	@Column(name = "det_total", precision = 10, scale = 2)
+	@JsonbNumberFormat(locale = "en_US", value = "#0.00")
 	private double total;
 	
 	@Column(name = "det_deleted", columnDefinition = "BOOLEAN DEFAULT 0")
@@ -45,6 +48,7 @@ public class BillDetail implements Serializable {
 	
 	@ManyToOne
 	@JoinColumn
+	@JsonbTransient
 	private BillHead billHead;
 
 	public BillDetail() {

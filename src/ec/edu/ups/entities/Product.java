@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,12 +36,14 @@ public class Product implements Serializable {
 	@Column(name = "pro_name", length = 255, nullable = false)
 	private String name;
 	
+	@JsonbTransient
 	@Transient
 	private boolean editable;
 
 	@Column(name = "pro_deleted", columnDefinition = "BOOLEAN DEFAULT 0")
 	private boolean deleted;
 
+	@JsonbTransient
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
 	private List<ProductWarehouse> productDetails = new ArrayList<ProductWarehouse>();
 

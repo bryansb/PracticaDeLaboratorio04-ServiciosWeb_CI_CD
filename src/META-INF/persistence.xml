@@ -14,10 +14,12 @@
 		<class>ec.edu.ups.entities.ProductWarehouse</class>
 		<class>ec.edu.ups.entities.User</class>
 		<class>ec.edu.ups.entities.Warehouse</class>
+		<class>ec.edu.ups.entities.Order</class>
 		<properties>
 
-			<property name="javax.persistence.schema-generation.database.action" 
-				value="none" />
+			<!--<property name="javax.persistence.schema-generation.database.action" value="none" />-->
+				<!-- create-or-extend-tables -->
+			<property name="eclipselink.ddl-generation" value="create-or-extend-tables" />
 			<property name="eclipselink.target-database" value="MySQL"/>
 		</properties>
 	</persistence-unit>

@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -53,7 +54,12 @@ public class User implements Serializable {
 	private boolean deleted;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@JsonbTransient
 	private List<BillHead> billHeads = new ArrayList<BillHead>();
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@JsonbTransient
+	private List<Order> orders;
 	
 	@Transient
 	private boolean editable;
@@ -151,6 +157,14 @@ public class User implements Serializable {
 
 	public void setEditable(boolean editable) {
 		this.editable = editable;
+	}
+
+	public List<Order> getOrders() {
+		return orders;
+	}
+
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	@Override

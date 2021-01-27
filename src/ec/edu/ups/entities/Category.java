@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,6 +38,7 @@ public class Category implements Serializable {
 	private boolean deleted;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+	@JsonbTransient
 	private List<Product> products = new ArrayList<Product>();
 
 	public Category() {

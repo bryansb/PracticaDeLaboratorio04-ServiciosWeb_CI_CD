@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 
 /**
@@ -27,15 +28,19 @@ public class ProductWarehouse implements Serializable {
     @Column(name = "pro_det_price", precision = 10, scale = 2)
     private double price;
 
+    @JsonbTransient
     @Column(name = "pro_det_deleted", columnDefinition = "BOOLEAN DEFAULT 0")
     private boolean deleted;
-
+    
+    @JsonbTransient
     @Transient
     private boolean editable;
-
+    
+    @JsonbTransient
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productWarehouse")
     private List<BillDetail> billDetails = new ArrayList<BillDetail>();
 
+    @JsonbTransient
     @ManyToOne
     @JoinColumn
     private Warehouse warehouse;
@@ -43,6 +48,11 @@ public class ProductWarehouse implements Serializable {
     @ManyToOne
     @JoinColumn
     private Product product;
+    
+    @JsonbTransient
+    @ManyToOne
+	@JoinColumn
+	private Order order;
 
     public ProductWarehouse() {
 	super();
@@ -112,7 +122,15 @@ public class ProductWarehouse implements Serializable {
 	this.editable = editable;
     }
 
-    @Override
+    public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	@Override
     public int hashCode() {
 	final int prime = 31;
 	int result = 1;
@@ -166,12 +184,12 @@ public class ProductWarehouse implements Serializable {
 	return true;
     }
 
-    @Override
-    public String toString() {
-	return "ProductDetail [id=" + id + ", stock=" + stock + ", price="
-		+ price + ", deleted=" + deleted + ", billDetails="
-		+ billDetails + ", warehouse=" + warehouse + ", product="
-		+ product + "]";
-    }
+	@Override
+	public String toString() {
+		return "ProductWarehouse [id=" + id + ", stock=" + stock + ", price="
+				+ price + ", deleted=" + deleted + ", editable=" + editable
+				+ ", billDetails=" + billDetails + ", warehouse=" + warehouse
+				+ ", product=" + product + ", order=" + order + "]";
+	}
 
 }

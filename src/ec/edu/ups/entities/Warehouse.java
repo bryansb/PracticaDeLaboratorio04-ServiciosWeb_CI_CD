@@ -3,6 +3,7 @@ package ec.edu.ups.entities;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,16 +38,20 @@ public class Warehouse implements Serializable {
 	@Column(name="war_deleted", columnDefinition="BOOLEAN DEFAULT 0")
 	private boolean deleted;
 	
+	@JsonbTransient
 	@Transient
 	private boolean editable;
 	
+	@JsonbTransient
 	@Transient
 	private boolean selected;
 
+	@JsonbTransient
 	@ManyToOne
 	@JoinColumn
 	private City city;
 
+	@JsonbTransient
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "warehouse")
 	private List<ProductWarehouse> productWarehouse;
 

@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.json.bind.annotation.JsonbDateFormat;
+import javax.json.bind.annotation.JsonbNumberFormat;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,18 +38,22 @@ public class BillHead implements Serializable {
 	private int id;
 	
 	@Column(name = "hea_subtotal", nullable=false)
+	@JsonbNumberFormat(locale = "en_US", value = "#0.00")
 	private double subtotal;
 	
 	@Column(name = "hea_vat", nullable=false)
+	@JsonbNumberFormat(locale = "en_US", value = "#0.00")
 	private double vat;
 	
 	@Column(name = "hea_date", nullable=false)
+	@JsonbDateFormat("dd-MM-yyyy")
 	private Calendar date;
 	
 	@Column(name = "hea_status", nullable=false, columnDefinition = "VARCHAR(1) DEFAULT 'C'")
 	private char status;
 	
 	@Column(name = "hea_total", precision = 12, scale = 2, nullable=false)
+	@JsonbNumberFormat(locale = "en_US", value = "#0.00")
 	private double total;
 	
 	@Column(name = "hea_deleted", columnDefinition = "BOOLEAN DEFAULT 0")
