@@ -38,6 +38,9 @@ public class User implements Serializable {
 	@Column(name="use_dni", length=10, nullable=false, unique=true)
 	private String dni;
 	
+	@Column(name="use_username", length=255, nullable=true)
+	private String username;
+	
 	@Column(name="use_password", length=255, nullable=false)
 	private String password;
 	
@@ -61,6 +64,7 @@ public class User implements Serializable {
 	@JsonbTransient
 	private List<OrderHead> orders;
 	
+	@JsonbTransient
 	@Transient
 	private boolean editable;
 
@@ -68,10 +72,11 @@ public class User implements Serializable {
 		super();
 	}
 
-	public User(String email, String dni, String password, String name, String lastname, char role, boolean deleted) {
+	public User(String email, String dni, String username, String password, String name, String lastname, char role, boolean deleted) {
 		super();
 		this.email = email;
 		this.dni = dni;
+		this.username = username;
 		this.password = password;
 		this.name = name;
 		this.lastname = lastname;
@@ -101,6 +106,14 @@ public class User implements Serializable {
 
 	public void setDni(String dni) {
 		this.dni = dni;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
 	public String getPassword() {
