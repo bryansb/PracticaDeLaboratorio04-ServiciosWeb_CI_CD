@@ -106,8 +106,12 @@ public class BillHead implements Serializable {
 			billDetail.calculateTotal();
 			this.subtotal += billDetail.getTotal();
 		}
+		this.subtotal = MathFunction.getTrunkDecimal(this.subtotal);
 		this.vat = MathFunction.getTrunkDecimal(this.subtotal * 0.12);
 		this.total = MathFunction.getTrunkDecimal(this.subtotal + this.vat);
+		
+		this.vat = MathFunction.getTrunkDecimal(this.vat);
+		this.total = MathFunction.getTrunkDecimal(this.total);
 		return true;
 	}
 
