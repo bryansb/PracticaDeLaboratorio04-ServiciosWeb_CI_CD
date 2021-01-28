@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.json.bind.annotation.JsonbDateFormat;
 import javax.json.bind.annotation.JsonbNumberFormat;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,8 +18,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+
+import ec.edu.ups.utils.MathFunction;
 
 /**
  * Entity implementation class for Entity: BillHead
@@ -65,6 +69,10 @@ public class BillHead implements Serializable {
 	@ManyToOne
 	@JoinColumn
 	private User user;
+	
+	@JsonbTransient
+	@OneToOne(cascade = CascadeType.ALL, mappedBy = "billHead")
+	private OrderHead order;
 
 	public BillHead() {
 		super();
@@ -98,8 +106,8 @@ public class BillHead implements Serializable {
 			billDetail.calculateTotal();
 			this.subtotal += billDetail.getTotal();
 		}
-		this.vat = this.subtotal * 0.12;
-		this.total = this.subtotal + this.vat;
+		this.vat = MathFunction.getTrunkDecimal(this.subtotal * 0.12);
+		this.total = MathFunction.getTrunkDecimal(this.subtotal + this.vat);
 		return true;
 	}
 

@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import ec.edu.ups.utils.MathFunction;
+
 /**
  * Entity implementation class for Entity: BillDetail
  *
@@ -65,7 +67,7 @@ public class BillDetail implements Serializable {
 	}
 
 	public void calculateTotal() {
-		this.total = this.unitPrice * this.amount;
+		this.total = MathFunction.getTrunkDecimal(this.unitPrice * this.amount);
 	}
 	
 	public int getId() {

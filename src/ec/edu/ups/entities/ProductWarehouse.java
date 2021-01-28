@@ -50,9 +50,8 @@ public class ProductWarehouse implements Serializable {
     private Product product;
     
     @JsonbTransient
-    @ManyToOne
-	@JoinColumn
-	private Order order;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productWarehouse")
+	private List<OrderDetail> orders;
 
     public ProductWarehouse() {
 	super();
@@ -119,15 +118,15 @@ public class ProductWarehouse implements Serializable {
     }
 
     public void setEditable(boolean editable) {
-	this.editable = editable;
+    	this.editable = editable;
     }
 
-    public Order getOrder() {
-		return order;
+	public List<OrderDetail> getOrders() {
+		return orders;
 	}
 
-	public void setOrder(Order order) {
-		this.order = order;
+	public void setOrders(List<OrderDetail> orders) {
+		this.orders = orders;
 	}
 
 	@Override
@@ -189,7 +188,7 @@ public class ProductWarehouse implements Serializable {
 		return "ProductWarehouse [id=" + id + ", stock=" + stock + ", price="
 				+ price + ", deleted=" + deleted + ", editable=" + editable
 				+ ", billDetails=" + billDetails + ", warehouse=" + warehouse
-				+ ", product=" + product + ", order=" + order + "]";
+				+ ", product=" + product;
 	}
 
 }

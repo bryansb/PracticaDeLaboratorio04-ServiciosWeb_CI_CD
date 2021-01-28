@@ -59,7 +59,7 @@ public class User implements Serializable {
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	@JsonbTransient
-	private List<Order> orders;
+	private List<OrderHead> orders;
 	
 	@Transient
 	private boolean editable;
@@ -159,11 +159,11 @@ public class User implements Serializable {
 		this.editable = editable;
 	}
 
-	public List<Order> getOrders() {
+	public List<OrderHead> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(List<Order> orders) {
+	public void setOrders(List<OrderHead> orders) {
 		this.orders = orders;
 	}
 

@@ -35,6 +35,10 @@
 			<to-view-id>/XHTML/private/employee/bill_management.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
+			<from-outcome>order-management</from-outcome>
+			<to-view-id>/XHTML/private/employee/order_management.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
 			<from-outcome>users</from-outcome>
 			<to-view-id>/XHTML/private/employee/user.xhtml</to-view-id>
 		</navigation-case>
@@ -63,6 +67,10 @@
 			<to-view-id>/XHTML/private/employee/bill_management.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
+			<from-outcome>order-management</from-outcome>
+			<to-view-id>/XHTML/private/employee/order_management.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
 			<from-outcome>users</from-outcome>
 			<to-view-id>/XHTML/private/employee/user.xhtml</to-view-id>
 		</navigation-case>
@@ -89,6 +97,10 @@
 		<navigation-case>
 			<from-outcome>bill-management</from-outcome>
 			<to-view-id>/XHTML/private/employee/bill_management.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>order-management</from-outcome>
+			<to-view-id>/XHTML/private/employee/order_management.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
 			<from-outcome>users</from-outcome>
@@ -120,11 +132,48 @@
 			<to-view-id>/XHTML/private/employee/bill_management.xhtml</to-view-id>
 		</navigation-case>
 		<navigation-case>
+			<from-outcome>order-management</from-outcome>
+			<to-view-id>/XHTML/private/employee/order_management.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
 			<from-outcome>users</from-outcome>
 			<to-view-id>/XHTML/private/employee/user.xhtml</to-view-id>
 		</navigation-case>
 		<!-- /LEFT MENU -->
 	</navigation-rule>
+	
+	<!-- 
+		PATH: /XHTML/private/employee/
+		XHTML FILE: bill_management.xhtml
+	 -->
+	<navigation-rule>
+		<display-name>Order</display-name>
+		<from-view-id>/XHTML/private/employee/order_management.xhtml</from-view-id>
+		<!-- LEFT MENU -->
+		<navigation-case>
+			<from-outcome>home</from-outcome>
+			<to-view-id>/index.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>billing</from-outcome>
+			<to-view-id>/XHTML/private/employee/billing.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>bill-management</from-outcome>
+			<to-view-id>/XHTML/private/employee/bill_management.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>order-management</from-outcome>
+			<to-view-id>/XHTML/private/employee/order_management.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>users</from-outcome>
+			<to-view-id>/XHTML/private/employee/user.xhtml</to-view-id>
+		</navigation-case>
+		<!-- /LEFT MENU -->
+	</navigation-rule>
+	
 	
 	<!-- 
 		PATH: /XHTML/private/admin/

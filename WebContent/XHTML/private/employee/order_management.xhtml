@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<ui:composition template="/WEB-INF/templates/common.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+    
+    <ui:define name="title">Gestión de Pedidos</ui:define>
+    
+    <ui:define name="body-content">
+    	<h2>Gestión de Pedidos</h2>
+    	<br/>
+    	<br/>
+    	<h3>Pedidos</h3>
+    	<h:panelGroup layout="block" id="order-list" styleClass="col-12">
+	    	<p:dataTable id="billhead-list" value="#{orderBean.orderHeadList}" var="oh" style="text-align: center;"
+	    	rows="5" paginator="true" rowsPerPageTemplate="5, 10, 15">
+				<p:column>
+					<f:facet name="header">Cédula</f:facet>
+					#{oh.user.dni}
+				</p:column>
+				<p:column>
+					<f:facet name="header">Nombre</f:facet>
+					#{oh.user.name}
+				</p:column>
+				<p:column>
+					<f:facet name="header">Apellido</f:facet>
+					#{oh.user.lastname}
+				</p:column>
+				<p:column>
+					<f:facet name="header">Productos</f:facet>
+					<p:commandButton value="Mostrar" action="#{orderBean.showBillDetail(oh)}" update="detail-list">
+					</p:commandButton>
+				</p:column>
+				<p:column>
+					<f:facet name="header">Cambiar Estados</f:facet>
+					
+					<h:form>
+						<p:splitButton value="#{oh.status}" styleClass="ui-button-help" >
+				            <p:menuitem value="Enviado" action="#{orderBean.updateOrderHeadStatus(oh, 'ENVIADO')}" 
+				            	update="order-list" icon="fa fa-save" rendered="#{oh.status != 'ENVIADO'}"/>
+				           	
+				           	<p:menuitem value="Receptado" action="#{orderBean.updateOrderHeadStatus(oh, 'RECEPTADO')}" 
+				            	update="order-list" icon="fa fa-save" rendered="#{oh.status != 'RECEPTADO'}"/>
+				            	
+				           	<p:menuitem value="En Proceso" action="#{orderBean.updateOrderHeadStatus(oh, 'EN PROCESO')}" 
+				            	update="order-list" icon="fa fa-save" rendered="#{oh.status != 'EN PROCESO'}"/>
+				            	
+				            <p:menuitem value="En Camino" action="#{orderBean.updateOrderHeadStatus(oh, 'EN CAMINO')}" 
+				            	update="order-list" icon="fa fa-save" rendered="#{oh.status != 'EN CAMINO'}"/>
+				            	
+				            <p:menuitem value="Finalizado" action="#{orderBean.updateOrderHeadStatus(oh, 'FINALIZADO')}" 
+				            	update="order-list" icon="fa fa-save" rendered="#{oh.status != 'FINALIZADO'}"/>
+				           	
+				        </p:splitButton>
+					</h:form>
+				</p:column>
+			</p:dataTable>
+		</h:panelGroup>
+		<h:panelGroup layout="block" id="detail-list" styleClass="col-12 text-right">
+			<h:panelGroup layout="block" styleClass="col-12 text-left" 
+			rendered="#{orderBean.showDetail}">
+				<br/>
+    			<h4>Productos</h4>
+    		</h:panelGroup>
+			<p:commandButton action="#{orderBean.hideBillDetail()}" icon="fa fa-close" title="Esconder Productos"
+			update="detail-list" rendered="#{orderBean.showDetail}"/>
+	    	<p:dataTable value="#{orderBean.orderHead.orders}" var="od" style="text-align: center;"
+	    	rows="5" paginator="true" rowsPerPageTemplate="5, 10, 15" rendered="#{orderBean.showDetail}">
+	    		<p:column>
+					<f:facet name="header">Nombre del Prod.</f:facet>
+					#{od.productWarehouse.product.name}
+				</p:column>
+				<p:column>
+					<f:facet name="header">Precio</f:facet>
+					#{od.productWarehouse.price}
+				</p:column>
+				<p:column>
+					<f:facet name="header">Cantidad</f:facet>
+					#{od.amount}
+				</p:column>
+	    	</p:dataTable>
+	    </h:panelGroup>
+   	</ui:define>
+    
+</ui:composition>

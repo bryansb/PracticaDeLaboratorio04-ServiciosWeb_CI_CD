@@ -5,6 +5,12 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class MathFunction {
+	
+	public static double getTrunkDecimal(double n) {
+		n = Math.round(n * 100.0)/100.0;
+		return n;
+	}
+	
 	public static String getMd5(String input) { 
         try { 
   

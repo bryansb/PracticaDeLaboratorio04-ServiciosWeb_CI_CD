@@ -7,15 +7,15 @@
 
 	<h:form rendered="#{user == null}">
 		<p:menu toggleable="true" style="width:100%">
-			<p:menuitem value="Catálogo" action="home" ajax="true"/>
+			<p:menuitem value="Ver Catálogo" action="home" ajax="true"/>
 		</p:menu>
 	</h:form>
 	<h:form rendered="#{user.role == 'A'.charAt(0)}">
 		<p:menu toggleable="true" style="width:100%">
 			<p:menuitem value="Inicio" action="home" ajax="false"/>
      		<p:submenu label="Bodegas">
-           		<p:menuitem value="Bodegas" action="warehouse" ajax="true"/>
-           		<p:menuitem value="Productos" action="product" ajax="true"/>
+           		<p:menuitem value="Gestión de Bodegas" action="warehouse" ajax="true"/>
+           		<p:menuitem value="Gestión de Productos" action="product" ajax="true"/>
        		</p:submenu>
    		</p:menu>
 	</h:form>
@@ -23,11 +23,14 @@
 		<p:menu toggleable="true" style="width:100%">
 			<p:menuitem value="Inicio" action="home" ajax="true"/>
 	       		<p:submenu label="Facturación">
-	         		<p:menuitem value="Nueva" action="billing" ajax="true"/>
-	           		<p:menuitem value="Gestión" action="bill-management" ajax="true"/>
+	         		<p:menuitem value="Nueva Factura" action="billing" ajax="true"/>
+	           		<p:menuitem value="Gestión de Facturas" action="bill-management" ajax="true"/>
+	      		</p:submenu>
+	      		<p:submenu label="Pedidos">
+	           		<p:menuitem value="Gestión de Pedidos" action="order-management" ajax="true"/>
 	      		</p:submenu>
 	       		<p:submenu label="Clientes">
-	           		<p:menuitem value="Gestión" action="users" ajax="true"/>
+	           		<p:menuitem value="Gestión de Clientes" action="users" ajax="true"/>
 	       		</p:submenu>
       	</p:menu>
 	</h:form>
