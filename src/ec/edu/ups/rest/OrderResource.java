@@ -90,7 +90,7 @@ public class OrderResource {
 		try {
 			User user = userFacade.read(userId);
 			
-			if (user == null || user.getId() == 0) {
+			if (user == null || user.getId() == 0 || user.isDeleted()) {
 				return Response.status(404).entity("El usuario no existe").build();
 			}
 			
