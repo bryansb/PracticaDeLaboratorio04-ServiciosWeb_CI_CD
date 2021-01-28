@@ -45,7 +45,7 @@ public class OrderResource {
 			@PathParam("warehouseId") Integer warehouseId) {
 		Jsonb jsonb = JsonbBuilder.create();
 		List<ProductWarehouse> productWarehouses = productWarehouseFacade.findByWarehouseId(warehouseId, "");
-		return Response.ok(jsonb.toJson(productWarehouses))
+		return Response.status(200).entity(jsonb.toJson(productWarehouses))
 				.header("Access-Control-Allow-Origin", "*")
 				.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
 				.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
@@ -58,7 +58,7 @@ public class OrderResource {
 			@PathParam("categoryId") Integer categoryId) {
 		Jsonb jsonb = JsonbBuilder.create();
 		List<ProductWarehouse> productWarehouses = productWarehouseFacade.findByCategoryId(categoryId, "");
-		return Response.ok(jsonb.toJson(productWarehouses))
+		return Response.status(200).entity(jsonb.toJson(productWarehouses))
 				.header("Access-Control-Allow-Origin", "*")
 				.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
 				.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
@@ -72,7 +72,7 @@ public class OrderResource {
 			@PathParam("categoryId") Integer categoryId) {
 		Jsonb jsonb = JsonbBuilder.create();
 		List<ProductWarehouse> productWarehouses = productWarehouseFacade.findByWarehouseAndCategoryId(warehouseId, categoryId, "");
-		return Response.ok(jsonb.toJson(productWarehouses))
+		return Response.status(200).entity(jsonb.toJson(productWarehouses))
 				.header("Access-Control-Allow-Origin", "*")
 				.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
 				.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
@@ -121,7 +121,7 @@ public class OrderResource {
 			}
 			orderHead.setUser(user);
 			orderHeadFacade.create(orderHead);
-			return Response.status(200).entity("Se creó el pedido correctamente").build();
+			return Response.status(201).entity("Se creó el pedido correctamente").build();
 		} catch (Exception e) {
 			return Response.status(500).entity("Error interno").build();
 		}
@@ -141,7 +141,7 @@ public class OrderResource {
 			}
 			orderHeadFacade.update(orderHead);
 			Jsonb jsonb = JsonbBuilder.create();
-			return Response.status(200).entity(jsonb.toJson(orderHead)).build();
+			return Response.status(201).entity(jsonb.toJson(orderHead)).build();
 		} catch (Exception e) {
 			return Response.status(500).entity("Error al realizar la solicitud").build();
 		}

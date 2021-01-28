@@ -70,7 +70,7 @@ public class AccountResource {
 		try {
 			User user = userFacade.loginUser(key, passwordMD5(password));
 			
-			return Response.ok(jsonb.toJson(user))
+			return Response.status(201).entity(jsonb.toJson(user))
 					.header("Access-Control-Allow-Origin", "*")
 					.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
 					.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
@@ -96,22 +96,30 @@ public class AccountResource {
 		confirmPassword = passwordMD5(confirmPassword);
 		if (userFacade.findUserByDNI(dni) == null) {
 			return Response.status(404).entity("Esta cédula no esta en el sistema").build();
-		}else if (userFacade.findUserByUsername(username) != null) {
+		} 
+		
+		if (userFacade.findUserByUsername(username) != null) {
 			return Response.status(405).entity("Este nombre de usuario no esta disponible").build();
-		}else if (userFacade.findUserByEmail(email) != null) {
+		} 
+		User user = userFacade.findUserByDNI(dni);
+		
+		if (userFacade.findUserByEmail(email) != null 
+				&& !email.equals(user.getEmail())) {
 			return Response.status(405).entity("Este correo ya esta en uso").build();
-		}else if (!password.equals(confirmPassword)) {
-			return Response.status(405).entity("Las contraseñas no coinciden").build();
-		}else {
-			User user = userFacade.findUserByDNI(dni);
-			user.setEmail(email);
-			user.setUsername(username);
-			user.setPassword(password);
-			user.setName(name);
-			user.setLastname(lastname);
-			userFacade.update(user);
-			return Response.status(200).entity("Ususario creado correctamente").build();
 		}
+		
+		if (!password.equals(confirmPassword)) {
+			return Response.status(405).entity("Las contraseñas no coinciden").build();
+		}
+		
+		user.setEmail(email);
+		user.setUsername(username);
+		user.setPassword(password);
+		user.setName(name);
+		user.setLastname(lastname);
+		userFacade.update(user);
+		return Response.status(201).entity("Ususario creado correctamente").build();
+		
 	}
 	
 	@PUT
@@ -124,29 +132,40 @@ public class AccountResource {
 			@FormParam("username") String username,
 			@FormParam("oldPassword") String oldPassword,
 			@FormParam("newPassword") String newPassword,
+			@FormParam("confirmPassword") String confirmPassword,
 			@FormParam("name") String name,
 			@FormParam("lastname") String lastname) throws IOException {
 		
 		oldPassword = passwordMD5(oldPassword);
 		newPassword = passwordMD5(newPassword);
+		confirmPassword = passwordMD5(confirmPassword);
 		
 		User user = userFacade.read(id);
 		
 		if (!user.getPassword().equals(oldPassword)) {
-			return Response.status(401).entity("Contraseña Incorrecta").build();
-		}else if (userFacade.findUserByEmail(email) != null) {
-			return Response.status(401).entity("Email ya existe").build();
-		}else if (userFacade.findUserByUsername(username) != null) {
-			return Response.status(401).entity("Username ya existe").build();
-		}else {
-			user.setEmail(email);
-			user.setUsername(username);
-			user.setPassword(newPassword);
-			user.setName(name);
-			user.setLastname(lastname);
-			userFacade.update(user);
-			return Response.status(200).entity("Usuario actualizado correctamente").build();
+			return Response.status(401).entity("Contraseña actual Incorrecta").build();
 		}
+		
+		if (!newPassword.equals(confirmPassword)) {
+			return Response.status(405).entity("Las contraseñas no coinciden").build();
+		}
+		
+		if (userFacade.findUserByEmail(email) != null 
+				&& !email.equals(user.getEmail())) {
+			return Response.status(405).entity("Email ya existe").build();
+		} 
+		if (userFacade.findUserByUsername(username) != null
+				&& !username.equals(user.getUsername())) {
+			return Response.status(405).entity("Username ya existe").build();
+		}
+		
+		user.setEmail(email);
+		user.setUsername(username);
+		user.setPassword(newPassword);
+		user.setName(name);
+		user.setLastname(lastname);
+		userFacade.update(user);
+		return Response.status(201).entity("Usuario actualizado correctamente").build();
 	}
 	
 	@PUT
@@ -157,7 +176,7 @@ public class AccountResource {
 		User user = userFacade.read(id);
 		user.setDeleted(true);
 		userFacade.update(user);
-		return Response.status(200).entity("Usuario correctamente eliminado de forma lógica").build();
+		return Response.status(201).entity("Usuario correctamente eliminado de forma lógica").build();
 	}
 	
 	private String passwordMD5(String password) {
