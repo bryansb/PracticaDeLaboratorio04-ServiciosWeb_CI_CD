@@ -59,6 +59,27 @@ public class AccountResource {
 		}
 	}
 	
+	@POST
+    @Path("/loginUser")
+    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response LoginUser(
+			@FormParam("key") String key,
+			@FormParam("password") String password) {
+		Jsonb jsonb = JsonbBuilder.create();
+		try {
+			User user = userFacade.loginUser(key, passwordMD5(password));
+			
+			return Response.status(201).entity(jsonb.toJson(user))
+					.header("Access-Control-Allow-Origin", "*")
+					.header("Access-Control-Allow-Headers", "origin, content-type, accept, authorization")
+					.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE").build();
+		} catch (Exception e) {
+			return Response.status(405).entity("Usuario y contraseña incorrectos").build();
+		}
+		
+	}
+	
 	@PUT
     @Path("/createUser")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
