@@ -32,6 +32,10 @@
 					#{oh.user.lastname}
 				</p:column>
 				<p:column>
+					<f:facet name="header">Dirección</f:facet>
+					#{oh.address}
+				</p:column>
+				<p:column>
 					<f:facet name="header">Productos</f:facet>
 					<p:commandButton value="Mostrar" action="#{orderBean.showBillDetail(oh)}" update="detail-list">
 					</p:commandButton>
