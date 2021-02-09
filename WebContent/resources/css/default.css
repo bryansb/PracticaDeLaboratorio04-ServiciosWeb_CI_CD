@@ -15,6 +15,41 @@ body{
 	font-weight: bold;
 }
 
+.my-f-s-md{
+	font-size: 17px !important;
+}
+
+/* .my-bg-light{
+	background-color: #89BF3E;
+	color: #000;
+}
+
+.my-bg-md{
+	background-color: #7BAE2E;
+}
+
+.my-bg-dark{
+	background-color: #005B0C;
+	color: #fff;
+} */
+
+.my-tex-light{
+	color: #BE9547;
+}
+
+
+
+.my-bg-md{
+	background-color: #24AA6D !important;
+	color: #fff !important;
+}
+
+.my-bg-dark{
+	background-color: #333333;
+	color: #fff;
+}
+
+
 /* 100% Image Width on Smaller Screens */
 @media only screen and (max-width: 700px){
     .modal-content {

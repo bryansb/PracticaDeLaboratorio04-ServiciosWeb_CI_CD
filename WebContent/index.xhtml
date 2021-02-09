@@ -11,8 +11,26 @@
     <ui:define name="title">Inicio</ui:define>
     
     <ui:define name="body-content">
+    	<div class="row justify-content-center mb-4">
+	    	<div class="col-sm-8 col-12 my-bg-dark p-4">
+	    		<div class="row justify-content-center">
+	    			<div class="col-3 align-self-center">
+		    			<div class="row justify-content-center">
+		    				<div class="text-center" style="font-size: 5rem;">
+		    					<i class="fa fa-fw fa-thumbs-o-up"></i>
+		    				</div>
+		    			</div>
+		    		</div>
+	    			<div class="col-8">
+	    				<h3>Aprovecha</h3>
+			    		<p class="my-bg-md p-2">Ahora se puede hacer un pedido con <span class="my-f-w">un click</span></p>
+			    		<p>No te pierdas de las <span class="my-f-w my-tex-light">ofertas de hoy</span></p>
+	    			</div>
+	    		</div>
+	    	</div>
+    	</div>
     	<h:form id="products-list">
-			<h3>Catálogo de productos:</h3>
+			<h1>Catálogo de productos</h1>
 			<div class="p-col-11 p-justify-center" style="text-align:center;">
     			<p:outputLabel for="product-name" style="display:none" value="Nombre del producto"/>
             	<p:inputText id="product-name" value="#{indexBean.productName}" placeholder="Buscar producto" styleClass="p-col-4"/>
@@ -102,6 +120,16 @@
 			                    <h:outputText value="#{pw.warehouse.address}" />
 		                    </p:column>
 	                	</p:row>
+	                	<p:row rendered="#{pw.product.discount != null and pw.product.discount.unscaledValue() != 0}">
+		                   	<p:column colspan="2" styleClass="my-f-w my-f-s-md my-bg-md">
+			                    <h:outputText value="#{pw.product.discount.intValue()} % de Descuento" />
+		                    </p:column>
+	                	</p:row>
+	                	<p:row>
+		                   	<p:column colspan="2">
+			                    <p:commandButton value="Pedir Ahora" icon="fa fa-cart-arrow-down"/>
+		                    </p:column>
+	                 	</p:row>
 	                </p:panelGrid>
 	            </p:panel>
 			</p:dataGrid>

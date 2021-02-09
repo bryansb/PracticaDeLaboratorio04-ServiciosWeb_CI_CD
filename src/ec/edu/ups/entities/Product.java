@@ -1,6 +1,7 @@
 package ec.edu.ups.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,9 @@ public class Product implements Serializable {
 
 	@Column(name = "pro_name", length = 255, nullable = false)
 	private String name;
+	
+	@Column(name = "pro_discount", precision = 4, scale = 2)
+    private BigDecimal discount;
 	
 	@JsonbTransient
 	@Transient
@@ -101,6 +105,14 @@ public class Product implements Serializable {
 
 	public void setEditable(boolean editable) {
 	    this.editable = editable;
+	}
+
+	public BigDecimal getDiscount() {
+		return discount;
+	}
+
+	public void setDiscount(BigDecimal discount) {
+		this.discount = discount;
 	}
 
 	@Override
